@@ -7,6 +7,7 @@ import Route from './route';
 import path from 'path';
 
 export default class App {
+
     public app: express.Application;
     public port: number;
     public logger: sl.Logger;
@@ -79,7 +80,7 @@ export default class App {
             next(error);
         });
 
-        this.app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        this.app.use((error: any, req: express.Request, res: express.Response) => {
             res.status(res.statusCode || 500);
             if(!error.message) error.message = "Internal Server Error";
             if(res.statusCode === 404) {
