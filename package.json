@@ -1,17 +1,17 @@
 {
-  "name": "site_express_ejs",
+  "name": "express-ts-template",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An ExpressJS TypeScript Template.",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node lib/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "TheDogHusky",
   "license": "ISC",
   "dependencies": {
-    "@classycrafter/super-logger": "^2.0.0",
+    "@classycrafter/super-logger": "^2.0.00",
     "@types/express": "^4.17.17",
     "chalk": "^4.1.2",
     "ejs": "^3.1.8",

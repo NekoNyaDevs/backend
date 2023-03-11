@@ -3,6 +3,7 @@ import {Logger} from "@classycrafter/super-logger";
 import {IInfos} from "../utils/types";
 
 export default abstract class Route {
+
     public router: express.Router;
     public path: string;
 
