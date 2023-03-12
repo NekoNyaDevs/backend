@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     });
 
     const token = req.headers.authorization?.replace('Bearer ', '');
-    if(!token) return res.status(400).json({
+    if(!token || typeof token !== "string") return res.status(400).json({
         status: '400',
         error: 'Bad Request',
         message: 'No token provided'

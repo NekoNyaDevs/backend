@@ -6,6 +6,7 @@ import * as utils from './functions';
 import Route from './route';
 import path from 'path';
 import Api from '../api/index';
+import cors from 'cors';
 
 export default class App {
 
@@ -32,6 +33,7 @@ export default class App {
     };
 
     private initializeMiddlewares() {
+        this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.set('view engine', 'ejs');
