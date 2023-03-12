@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import fetch from 'node-fetch';
+import * as config from '../config';
 
 export const isGoodStatus = (code: number): boolean => {
     return code >= 200 && code < 400;
@@ -35,4 +37,16 @@ export function isConstructor(func: any, _class: any): boolean {
     } catch (err) {
         return false;
     }
+}
+
+export async function isValidToken(token: string): Promise<boolean> {
+    const res = await fetch(`http${config.secure ? 's' : ''}://${config.host}:${config.port}/api/v1/valid`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }).then((res) => res.json());
+
+    return res.status === "200";
 }

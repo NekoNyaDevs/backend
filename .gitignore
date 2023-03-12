@@ -2,6 +2,16 @@
 lib
 /lib
 
+src/config.ts
+./src/config.ts
+/src/config.ts
+
+images/**/*
+!images/README.md
+/images/**/*
+!/images/README.md
+./images/**/*
+!./images/README.md
 
 ### Node ###
 # Logs

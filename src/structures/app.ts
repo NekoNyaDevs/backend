@@ -1,10 +1,11 @@
-import express from 'express';
+import express, {NextFunction, Response, Request} from 'express';
 import * as sl from '@classycrafter/super-logger';
 import * as config from '../config';
 import fs from 'fs';
 import * as utils from './functions';
 import Route from './route';
 import path from 'path';
+import Api from '../api/index';
 
 export default class App {
 
@@ -35,6 +36,7 @@ export default class App {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.set('view engine', 'ejs');
         this.app.use('/static', express.static('static'));
+        this.app.use('/images', express.static('images'));
         this.app.set('host', config.host);
         this.app.use((req, res, next) => {
             next();
@@ -42,6 +44,8 @@ export default class App {
             if(!utils.isGoodStatus(res.statusCode)) return this.logger.warn(`${req.method} @${req.url} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
             this.logger.info(`${req.method} @${req.url} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
         });
+        const api = Api(this.logger);
+        this.app.use('/api', api);
     };
 
     private initializeRoutes(routes: Route[]) {
@@ -80,14 +84,15 @@ export default class App {
             next(error);
         });
 
-        this.app.use((error: any, req: express.Request, res: express.Response) => {
+        this.app.get('*', (req, res) => {
+            res.status(404).render('404', { title: 'Not Found', err: new Error('Not Found'), status: 404 });
+        });
+
+        this.app.use((error: any, req: express.Request, res: express.Response, next: NextFunction) => {
+            if (res.statusCode !== 404) this.logger.error(error.stack, "App");
             res.status(res.statusCode || 500);
             if(!error.message) error.message = "Internal Server Error";
-            if(res.statusCode === 404) {
-                res.render('404', { title: 'Not Found', error: error, status: res.statusCode });
-                return;
-            }
-            res.render('error', { title: 'Oops! Error!', error: error, status: res.statusCode });
+            res.render('error', { title: 'Oops! Error!', err: error, status: res.statusCode });
         });
     }
 }

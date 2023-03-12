@@ -11,3 +11,51 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.container {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #969696;
+}
+
+.btn {
+    --btn-color: #333;
+    --btn-bg-color: #fff;
+    --btn-hover-color: #fff;
+    --btn-hover-bg-color: #333;
+
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid var(--btn-bg-color);
+    border-radius: 5px;
+    background-color: var(--btn-bg-color);
+    color: var(--btn-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover-bg-color);
+    color: var(--btn-hover-color);
+    border-color: var(--btn-hover-bg-color);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.nekonya-btn {
+    --btn-color: #7ed957;
+    --btn-bg-color: #eb7763;
+    --btn-hover-color: #7ed957;
+    --btn-hover-bg-color: #e8553c;
+}
