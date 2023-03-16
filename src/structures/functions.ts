@@ -40,7 +40,7 @@ export function isConstructor(func: any, _class: any): boolean {
 }
 
 export async function isValidToken(token: string): Promise<boolean> {
-    const res = await fetch(`http${config.secure ? 's' : ''}://${config.host}:${config.port}/api/v1/valid`, {
+    const res = await fetch(`http://${config.host}:${config.port}/api/v1/valid`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
