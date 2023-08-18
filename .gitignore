@@ -9,6 +9,9 @@ src/config.ts
 images/**
 !images/README.md
 
+package-lock.json
+/package-lock.json
+./package-lock.json
 
 ### Node ###
 # Logs
