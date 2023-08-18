@@ -5,13 +5,8 @@ import * as config from '../../config';
 
 router.post('/', async (req, res) => {
     const body = req.body;
-    if(!body || Object.keys(body).length > 2) return res.status(400).json({
-        status: '400',
-        error: 'Bad Request',
-        message: 'Invalid body'
-    });
     if(!body.username || !body.password) return res.status(400).json({
-        status: '400',
+        status: 400,
         error: 'Bad Request',
         message: 'No username or password provided'
     });
@@ -31,7 +26,7 @@ router.post('/', async (req, res) => {
     }
 
     return res.status(401).json({
-        status: '401',
+        status: 401,
         error: 'Unauthorized',
         message: 'Invalid username or password'
     });

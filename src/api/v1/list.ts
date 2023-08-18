@@ -8,7 +8,7 @@ router.get('/:type', (req, res) => {
 
     const types = ['all', 'nekos', 'kitsunes', 'pats', 'kisses', 'hugs', 'lewds'];
     if(!types.includes(type)) return res.status(400).json({
-        status: '400',
+        status: 400,
         error: 'Bad Request',
         message: 'Invalid type'
     });
@@ -30,7 +30,7 @@ router.get('/:type', (req, res) => {
     else files = fs.readdirSync(`./images/${type}`);
 
     return res.status(200).json({
-        status: '200',
+        status: 200,
         message: 'OK',
         data: {
             type: type,

@@ -3,7 +3,8 @@ const router = Router();
 
 router.get('/', (req, res) => {
     res.status(200).json({
-        status: 'OK'
+        status: 200,
+        message: 'OK'
     });
 });
 

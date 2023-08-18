@@ -1,6 +1,9 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 import * as config from '../config';
+import { Request } from 'express';
+import * as jose from "jose";
+import { IsValidTokenRes } from '../utils/types';
 
 export const isGoodStatus = (code: number): boolean => {
     return code >= 200 && code < 400;
@@ -39,14 +42,40 @@ export function isConstructor(func: any, _class: any): boolean {
     }
 }
 
-export async function isValidToken(token: string): Promise<boolean> {
-    const res = await fetch(`http://${config.host}:${config.port}/api/v1/valid`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-        }
-    }).then((res) => res.json());
+export async function isValidToken(req: Request): Promise<IsValidTokenRes> {
+    if (Object.keys(req.body).length > 0) return {
+        status: 400,
+        error: 'Bad Request',
+        message: 'Too many arguments'
+    };
 
-    return res.status === "200";
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token || typeof token !== "string") return {
+        status: 400,
+        error: 'Bad Request',
+        message: 'No token provided'
+    };
+    const secret = new TextEncoder().encode(config.jwtSecret);
+    const payload = jose.decodeJwt(token);
+    if (!payload || !payload["secretPass"]) return {
+        status: 400,
+        error: 'Bad Request',
+        message: 'Token is invalid'
+    };
+    const condition1 = !((await jose.jwtVerify(token, secret).catch((err: Error) => {
+        return err;
+    })) instanceof Error);
+    const condition2 = !payload["secretPass"] || payload["secretPass"] === config.secretPass;
+    const verified = condition1 && condition2;
+    if (!verified) return {
+        status: 401,
+        error: 'Unauthorized',
+        message: 'Token is invalid or has expired'
+    };
+
+    return {
+        status: 200,
+        message: 'Token is valid'
+    };
 }
+

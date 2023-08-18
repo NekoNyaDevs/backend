@@ -7,26 +7,24 @@ import {isValidToken} from "../../structures/functions";
 const router = Router();
 router.get('/', (req, res) => {
     res.status(200).json({
-        status: 'OK',
+        status: 200,
+        message: 'OK',
         version: 'v1'
     });
 });
 
-router.get('*' , async (req, res, next) => {
+router.use(async (req, res, next) => {
     if(req.path === '/token') return next();
-    const token = req.headers.authorization;
-    if(!token) return res.status(401).json({
-        status: '401',
-        error: 'Unauthorized',
-        message: 'No token provided'
-    });
 
-    await isValidToken(token).then((valid: boolean) => {
-        if(!valid) return res.status(401).json({
-            status: '401',
-            error: 'Unauthorized',
-            message: 'Invalid token'
-        });
+    await isValidToken(req).then((result) => {
+        if (result.status !== 200) {
+            return res.status(result.status).json({
+                status: result.status,
+                error: result.error,
+                message: result.message
+            });
+        }
+
         next();
     }).catch((err: Error) => {
         next(err);
