@@ -6,7 +6,7 @@ import {ImageInfo} from '../../utils/interfaces';
 router.get('/:type', (req, res) => {
     const type = req.params.type;
 
-    const types = ['all', 'nekos', 'kitsunes', 'pats', 'kisses', 'hugs', 'lewds'];
+    const types = ['all', 'nekos', 'kitsunes', 'pats', 'kisses', 'hugs', 'lewds', 'slaps'];
     if(!types.includes(type)) return res.status(400).json({
         status: 400,
         error: 'Bad Request',
