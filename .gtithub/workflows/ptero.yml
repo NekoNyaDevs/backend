@@ -1,0 +1,17 @@
+name: Restart ptero server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: supercrafter100/Pterodactyl-Restart@v1.0
+        with:
+          PTE_PANEL_URL: 'https://pte.classydev.fr'
+          PTE_BEARER_TOKEN: ${{ secrets.PTE_BEARER_TOKEN }}
+          PTE_PANEL_ID: ${{ secrets.PTE_PANEL_ID }}
