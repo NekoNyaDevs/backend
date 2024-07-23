@@ -48,6 +48,10 @@ body {
     background-color: var(--gray);
     margin: 0;
     padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .container {
@@ -58,7 +62,7 @@ body {
     align-items: center;
     width: 100%;
     text-align: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .btn {
@@ -164,4 +168,17 @@ body {
 
 .storage {
     color: var(--dark-light);
+}
+
+footer {
+    margin-top: auto;
+    padding: 15px;
+    color: var(--dark-light);
+    text-align: left;
+    width: 100%;
+    font-family: "Source Code Pro", monospace;
+}
+
+footer p {
+    margin: 0;
 }
