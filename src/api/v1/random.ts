@@ -30,7 +30,7 @@ router.get('/:type', (req, res) => {
 
     const image = files[Math.floor(Math.random() * files.length)];
     return res.status(200).json({
-        "url": getBaseURL(req) + "/images/" + type + "/" + image
+        "url": getBaseURL(req) + "/images/" + type + "s/" + image
     });
 });
 

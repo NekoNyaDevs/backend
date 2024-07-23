@@ -42,7 +42,7 @@ export default class App {
             this.logger.info(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
         });
         const api = Api(this.logger);
-        this.app.use('/api', api);
+        this.app.use(api);
     };
 
     public listen() {
