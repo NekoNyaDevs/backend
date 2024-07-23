@@ -1,13 +1,51 @@
+:root {
+    --primary: #eb7763;
+    --primary-dark: #e8553c;
+    --secondary: #7ed957;
+    --secondary-dark: #57b43a;
+    --tertiary: #adadad;
+    --tertiary-dark: #8c8c8c;
+    --success: #7ed957;
+    --success-dark: #57b43a;
+    --danger: #f65246;
+    --danger-dark: #d32f2f;
+    --warning: #ff9800;
+    --warning-dark: #f57c00;
+    --info: #2196f3;
+    --info-dark: #1a74cc;
+    --dark: #212121;
+    --dark-light: #333;
+    --light: #fafafa;
+    --gray: #adadad;
+}
+
 * {
     box-sizing: border-box;
+}
+
+h1 {
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+h1 * {
+    transition: all 0.3s ease;
+}
+
+h1:hover .neko {
+    color: var(--primary-dark);
+}
+
+h1:hover .nya {
+    color: var(--secondary-dark);
 }
 
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    color: #333;
-    background-color: #d2d2d2;
+    color: var(--dark);
+    background-color: var(--gray);
     margin: 0;
     padding: 0;
 }
@@ -19,15 +57,15 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    text-align: center;
     height: 100vh;
-    background-color: #969696;
 }
 
 .btn {
-    --btn-color: #333;
-    --btn-bg-color: #fff;
-    --btn-hover-color: #fff;
-    --btn-hover-bg-color: #333;
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--light);
+    --btn-hover-color: var(--light);
+    --btn-hover-bg-color: var(--dark)3;
 
     display: inline-block;
     padding: 10px 20px;
@@ -53,9 +91,77 @@ body {
     transform: scale(0.95);
 }
 
+.btn-primary {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--primary);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--secondary);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--secondary-dark);
+}
+
+.btn-tertiary {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--tertiary);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--tertiary-dark);
+}
+
+.btn-success {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--success);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--success-dark);
+}
+
+.btn-danger {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--danger);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--danger-dark);
+}
+
+.btn-warning {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--warning);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--warning-dark);
+}
+
+.btn-info {
+    --btn-color: var(--dark);
+    --btn-bg-color: var(--info);
+    --btn-hover-color: var(--dark);
+    --btn-hover-bg-color: var(--info-dark);
+}
+
 .nekonya-btn {
     --btn-color: #7ed957;
     --btn-bg-color: #eb7763;
     --btn-hover-color: #7ed957;
     --btn-hover-bg-color: #e8553c;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.neko {
+    color: var(--primary);
+}
+
+.nya {
+    color: var(--secondary);
+}
+
+.storage {
+    color: var(--dark-light);
 }

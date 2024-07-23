@@ -11,4 +11,6 @@ if(!fs.existsSync('./logs')) {
 }
 
 const app = new App(config.port);
+
+app.logger.info(`App starting in ${process.env.NODE_ENV} mode`, "App");
 app.listen();
