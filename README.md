@@ -2,10 +2,11 @@
 
 ## 📝・Description
 
-NekoNya Storage is NekoNya's Cloud storage system (I don't know if I can really call this a cloud..).It is a simple server that stores, runs a web server so you can access them and has an API.
-Warning: This is a private server. Any use of this server for something else without our permission is prohibited.
+NekoNya-Storage is a Node.JS TypeScript webserver serving NekoNya's files and running the API behind the scenes.
 
-## 📚・How to use
+If you wish to deploy your own instance of NekoNya-Storage for any reasons, you can do so by following the instructions below. But please, do not forget to give credit to the original authors of this project.
+
+## 📚・How to deploy
 
 ### 📦・Install
 
@@ -19,15 +20,24 @@ $ npm install
 
 ### 📝・Configuration
 
-Change the file `config.example.ts` to `config.ts` and change the values to your liking.
-> Note: The configuration file is documented.
+Change the file `src/config.example.ts` to `config.ts` and change the values to your liking. The configuration file is commented so you can easily understand what each value does.
+
+Don't forget to add images in the categories inside of the `images` folder.
 
 ### 🚀・Run
+
+Production:
 
 ```bash
 $ npm start
 ```
 
+Development:
+
+```bash
+$ npm run dev
+```
+
 ## 📜・License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the GNU GPL 3.0 License - see the [LICENSE](LICENSE) file for details

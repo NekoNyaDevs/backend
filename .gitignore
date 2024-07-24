@@ -6,7 +6,7 @@ src/config.ts
 ./src/config.ts
 /src/config.ts
 
-images/**
+images/*/**
 !images/README.md
 
 package-lock.json
