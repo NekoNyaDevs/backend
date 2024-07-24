@@ -42,7 +42,11 @@ export default class App {
             this.logger.info(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
         });
         const api = Api(this.logger);
-        this.app.use(api);
+        if (process.env.NODE_ENV === "development") {
+            this.app.use(api);
+        } else {
+            this.app.use("/api", api);
+        }
     };
 
     public listen() {
