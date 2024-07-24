@@ -24,7 +24,7 @@ export const timingColor = (ms: number | string): string => {
 };
 
 export const getBaseURL = (req: Request): string => {
-    return req.protocol + '://' + req.hostname + (process.env.NODE_ENV === 'production' ? '' : (':' + config.port));
+    return (config.secure ? "https" : "http") + '://' + req.hostname + (process.env.NODE_ENV === 'production' ? '' : (':' + config.port));
 };
 
 export * from "./validators";
