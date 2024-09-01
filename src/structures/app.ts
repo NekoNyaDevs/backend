@@ -29,6 +29,8 @@ export default class App {
     };
 
     private initializeMiddlewares() {
+        this.app.disable('x-powered-by');
+        this.app.set('trust proxy', 1);
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
