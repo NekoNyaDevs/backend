@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 router.get('/:type', (req, res) => {
     const type = req.params.type;
 
-    const types = ['all', 'neko', 'kitsune', 'pat', 'kisse', 'hug', 'lewd', 'slap'];
+    const types = ['all', 'neko', 'kitsune', 'pat', 'kiss', 'hug', 'lewd', 'slap'];
     if(!types.includes(type)) return res.status(400).json({
         status: 400,
         error: 'Bad Request',
