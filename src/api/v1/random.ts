@@ -18,19 +18,21 @@ router.get('/:type', (req, res) => {
     });
 
     let files: string[] = [];
+    const scanType = type === 'kiss' ? 'kisses' : type + 's';
 
     if(type === 'all') {
         for (const type of types) {
             if(type === 'all') continue;
-            const dirFiles = fs.readdirSync(`./images/${type}s`)
+            const scanType = type === 'kiss' ? 'kisses' : type + 's';
+            const dirFiles = fs.readdirSync(`./images/${scanType}`);
             files.push(...dirFiles);
         }
     }
-    else files = fs.readdirSync(`./images/${type}s`);
+    else files = fs.readdirSync(`./images/${scanType}`);
 
     const image = files[Math.floor(Math.random() * files.length)];
     return res.status(200).json({
-        "url": getBaseURL(req) + "/images/" + type + "s/" + image
+        "url": getBaseURL(req) + "/images/" + scanType + "/" + image
     });
 });
 

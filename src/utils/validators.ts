@@ -7,3 +7,7 @@ export const owoifyGetValidator = [
 export const owoifyPostValidator = [
     validator.body('text', "text body is required").isString().withMessage('text body must be a string').trim().isLength({ min: 1, max: 2000 }).withMessage("text body must be between 1 and 2000 chars").escape()
 ];
+
+export const eightballValidator = [
+    validator.query('cute', "cute query must be a boolean").optional().isBoolean().withMessage('cute query must be a boolean').toBoolean()
+];

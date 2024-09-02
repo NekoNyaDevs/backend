@@ -1,5 +1,7 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 const router = Router();
+import { eightballValidator } from "../../utils";
+import { matchedData, validationResult } from "express-validator";
 
 const eightballAnswers = [
     "It is certain",
@@ -53,8 +55,16 @@ const cuteEightballAnswers = [
     "Very doubtfwul!"
 ];
 
-router.get('/', (req, res) => {
-    const cute = req.query.cute || false;
+router.get('/', eightballValidator, (req: Request, res: Response) => {
+    const results = validationResult(req);
+    if(!results.isEmpty()) return res.status(400).json({
+        message: 'Validation failed',
+        errors: results.array()
+    });
+
+    const data = matchedData(req);
+
+    const cute = data.cute || false;
     const answers = cute ? cuteEightballAnswers : eightballAnswers;
     const answer = answers[Math.floor(Math.random() * answers.length)];
 
