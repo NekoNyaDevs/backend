@@ -1,10 +1,10 @@
-# 🌿・NekoNya-Storage
+# 🌿・NekoNya-Backend
 
 ## 📝・Description
 
-NekoNya-Storage is a Node.JS TypeScript webserver serving NekoNya's files and running the API behind the scenes.
+NekoNya-Backend is a Node.JS TypeScript webserver serving NekoNya's files and running the API behind the scenes.
 
-If you wish to deploy your own instance of NekoNya-Storage for any reasons, you can do so by following the instructions below. But please, do not forget to give credit to the original authors of this project.
+If you wish to deploy your own instance of NekoNya-Backend for any reasons, you can do so by following the instructions below. But please, do not forget to give credit to the original authors of this project.
 
 ## 📚・How to deploy
 
