@@ -2,7 +2,7 @@
 
 ## 📝・Description
 
-NekoNya-Backend is a Node.JS TypeScript webserver serving NekoNya's files and running the API behind the scenes.
+NekoNya-Backend is a Node.JS TypeScript webserver running the API behind the scenes.
 
 If you wish to deploy your own instance of NekoNya-Backend for any reasons, you can do so by following the instructions below. But please, do not forget to give credit to the original authors of this project.
 
@@ -22,7 +22,7 @@ $ npm install
 
 Change the file `src/config.example.ts` to `config.ts` and change the values to your liking. The configuration file is commented so you can easily understand what each value does.
 
-Don't forget to add images in the categories inside of the `images` folder.
+Don't forget to add images in the categories inside the `images` folder.
 
 ### 🚀・Run
 

@@ -34,8 +34,6 @@ export default class App {
         this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
-        this.app.use(express.static('static'));
-        this.app.use('/images', express.static('images'));
         this.app.set('host', config.host);
         this.app.use((req, res, next) => {
             next();
