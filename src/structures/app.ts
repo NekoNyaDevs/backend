@@ -36,6 +36,9 @@ export default class App {
         this.app.disable('x-powered-by');
         this.app.set('trust proxy', 1);
         this.app.use(cors());
+        if (process.env.NODE_ENV === 'development') {
+            this.app.use("/images", express.static('images'));
+        }
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.set('host', config.host);
