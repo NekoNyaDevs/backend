@@ -4,6 +4,10 @@ import * as config from '../config';
 import * as utils from '../utils';
 import Api from '../api/index';
 import cors from 'cors';
+import { APIError, NotFoundError } from "./errors";
+import 'express-async-errors';
+import onFinished from 'on-finished';
+import onHeaders from 'on-headers';
 
 export default class App {
 
@@ -36,10 +40,19 @@ export default class App {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.set('host', config.host);
         this.app.use((req, res, next) => {
+            let startTime: [number, number];
+            let ms;
+            onHeaders(res, () => {
+                startTime = process.hrtime();
+            });
+            onFinished(res, (err, res) => {
+                if(err) return this.logger.error(err.stack as string, "App");
+                ms = utils.getMs(startTime);
+                if(utils.isInternalServerError(res.statusCode)) return this.logger.error(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
+                if(!utils.isGoodStatus(res.statusCode)) return this.logger.warn(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
+                this.logger.info(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
+            });
             next();
-            const ms = utils.getMs(process.hrtime());
-            if(!utils.isGoodStatus(res.statusCode)) return this.logger.warn(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
-            this.logger.info(`${req.method} @${req.originalUrl} - ${res.statusCode} (${utils.timingColor(ms)})`, "App");
         });
         const api = Api(this.logger);
         this.app.use("/api", api);
@@ -53,23 +66,25 @@ export default class App {
 
     private initializeErrorHandling() {
         this.app.use((req, res, next) => {
-            const error = new Error('Not found');
-            res.status(404);
-            next(error);
+            next(new NotFoundError("Route not found"));
         });
 
-        this.app.use((error: any, req: express.Request, res: express.Response, next: NextFunction) => {
+        this.app.use((error: APIError, req: express.Request, res: express.Response, next: NextFunction) => {
             if (res.headersSent) {
                 return next(error);
             }
-            if (res.statusCode === 200) res.status(500);
-            if (res.statusCode !== 404) this.logger.error(error.stack, "App");
+            // If there isn't the type property, it is a fallback error
+            if (!error.type) error = APIError.fromError(error);
+            res.status(error.code || 500);
             res.json({
                 error: {
                     message: error.message,
-                    status: res.statusCode
-                }
+                    code: error.code,
+                    type: error.type
+                },
+                errors: error.isValidationError() ? error.errors : undefined
             });
+            if (error.code >= 500) this.logger.error(error.stack as string, "App");
         });
     }
 }

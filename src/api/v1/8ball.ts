@@ -1,7 +1,8 @@
-import { Router, Request, Response } from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 const router = Router();
-import { eightballValidator } from "../../utils";
+import { APIRouteInfos, eightballValidator } from "../../utils";
 import { matchedData, validationResult } from "express-validator";
+import { ValidationError } from "../../structures/errors";
 
 const eightballAnswers = [
     "It is certain",
@@ -55,15 +56,11 @@ const cuteEightballAnswers = [
     "Very doubtfwul!"
 ];
 
-router.get('/', eightballValidator, (req: Request, res: Response) => {
+router.get('/', eightballValidator,  async (req: Request, res: Response, next: NextFunction) => {
     const results = validationResult(req);
-    if(!results.isEmpty()) return res.status(400).json({
-        message: 'Validation failed',
-        errors: results.array()
-    });
+    if(!results.isEmpty()) throw new ValidationError(results.array());
 
     const data = matchedData(req);
-
     const cute = data.cute || false;
     const answers = cute ? cuteEightballAnswers : eightballAnswers;
     const answer = answers[Math.floor(Math.random() * answers.length)];
@@ -74,3 +71,19 @@ router.get('/', eightballValidator, (req: Request, res: Response) => {
 });
 
 export default router;
+export const infos: APIRouteInfos = {
+    name: "8ball",
+    description: "Get a random 8ball response",
+    path: "/8ball",
+    methods: ["GET"],
+    parameters: [],
+    queries: [
+        {
+            name: "cute",
+            description: "If you want the response to be cute",
+            required: false,
+            type: "boolean"
+        }
+    ],
+    body: []
+};

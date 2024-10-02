@@ -1,6 +1,7 @@
 import fs from 'fs';
 import {Router} from 'express';
 import {Logger} from "@classycrafter/super-logger";
+import { basename } from 'path';
 
 export default (logger: Logger) => {
     const router = Router();
@@ -14,7 +15,7 @@ export default (logger: Logger) => {
     });
 
     fs.readdirSync(__dirname).forEach(dir => {
-        if(dir === 'index.ts') return;
+        if(dir === basename(__filename)) return;
         const route = require('./' + dir).default(logger);
         router.use(`/${dir}/`, route);
         logger.info(`Loaded API version ${dir}`, "API");

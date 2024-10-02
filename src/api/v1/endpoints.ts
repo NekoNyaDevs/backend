@@ -1,67 +1,27 @@
 import { Router } from 'express';
 const router = Router();
+import { APIRouteInfos } from "../../utils";
+import fs from "fs";
+import path from "path";
+
+const routeInfos: APIRouteInfos[] = [];
+const files = fs.readdirSync(__dirname).filter(file => file !== path.basename(__filename) && file !== "index.ts" && file !== "index.js");
+for (const file of files) {
+    const infos = require('./' + file).infos;
+    routeInfos.push(infos);
+}
 
 router.get("/", (req, res) => {
-    res.status(200).json([
-        {
-            "name": "random",
-            "description": "Get random images",
-            "path": "/random",
-            "methods": ["GET"],
-            "parameters": [
-                {
-                    "name": "type",
-                    "description": "Type of image",
-                    "required": true,
-                    "type": "string",
-                    "values": ["neko", "kitsune", "pat", "kisse", "hug", "lewd", "slap"]
-                }
-            ],
-            "queries": [],
-            "body": []
-        },
-        {
-            "name": "8ball",
-            "description": "Get a random 8ball response",
-            "path": "/8ball",
-            "methods": ["GET"],
-            "parameters": [],
-            "queries": [
-                {
-                    "name": "cute",
-                    "description": "If you want the response to be cute",
-                    "required": false,
-                    "type": "boolean"
-                }
-            ],
-            "body": []
-        },
-        {
-            "name": "owoify",
-            "description": "Owoify text (make it cute)",
-            "path": "/owoify",
-            "methods": ["GET", "POST"],
-            "parameters": [],
-            "queries": [
-                {
-                    "name": "text",
-                    "description": "Text to owoify",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "body": [
-                {
-                    "name": "text",
-                    "description": "Text to owoify",
-                    "required": true,
-                    "type": "string",
-                    "max_length": 2000,
-                    "min_length": 1
-                }
-            ]
-        }
-    ]);
+    res.status(200).json(routeInfos);
 });
 
 export default router;
+export const infos: APIRouteInfos = {
+    name: "endpoints",
+    description: "Get all available endpoints",
+    path: "/endpoints",
+    methods: ["GET"],
+    parameters: [],
+    queries: [],
+    body: []
+};

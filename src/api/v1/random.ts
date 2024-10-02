@@ -1,39 +1,42 @@
 import { Router } from 'express';
 const router = Router();
-import fs from 'fs';
-import { getBaseURL } from "../../utils";
+import fs from 'fs/promises';
+import { APIRouteInfos, formatType, getBaseURL } from "../../utils";
+import { BadRequestError } from "../../structures/errors";
 
 router.get("/", (req, res) => {
     res.redirect("/api/v1/random/neko");
 });
 
-router.get('/:type', (req, res) => {
+router.get('/:type', async (req, res, next) => {
     const type = req.params.type;
+    const types = ['neko', 'kitsune', 'pat', 'kiss', 'hug', 'lewd', 'slap'];
+    if (!types.includes(type)) throw new BadRequestError("Invalid Type");
 
-    const types = ['all', 'neko', 'kitsune', 'pat', 'kiss', 'hug', 'lewd', 'slap'];
-    if(!types.includes(type)) return res.status(400).json({
-        status: 400,
-        error: 'Bad Request',
-        message: 'Invalid type'
-    });
-
-    let files: string[] = [];
-    const scanType = type === 'kiss' ? 'kisses' : type + 's';
-
-    if(type === 'all') {
-        for (const type of types) {
-            if(type === 'all') continue;
-            const scanType = type === 'kiss' ? 'kisses' : type + 's';
-            const dirFiles = fs.readdirSync(`./images/${scanType}`);
-            files.push(...dirFiles);
-        }
-    }
-    else files = fs.readdirSync(`./images/${scanType}`);
-
+    const scanType = formatType(type);
+    let files: string[] = await fs.readdir(`./images/${scanType}`);
     const image = files[Math.floor(Math.random() * files.length)];
+
     return res.status(200).json({
-        "url": getBaseURL(req) + "/images/" + scanType + "/" + image
+        url: getBaseURL(req) + "/images/" + scanType + "/" + image
     });
 });
 
 export default router;
+export const infos: APIRouteInfos = {
+    name: "random",
+    description: "Get a random image",
+    path: "/random",
+    methods: ["GET"],
+    parameters: [
+        {
+            name: "type",
+            description: "The type of image",
+            required: true,
+            type: "string",
+            values: ["neko", "kitsune", "pat", "kiss", "hug", "lewd", "slap"]
+        }
+    ],
+    queries: [],
+    body: []
+};

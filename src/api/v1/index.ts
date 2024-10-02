@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import {Router} from 'express';
-import {Logger} from "@classycrafter/super-logger";
+import { Router } from 'express';
+import { Logger } from "@classycrafter/super-logger";
 
 const router = Router();
 router.get('/', (req, res) => {
@@ -14,12 +14,12 @@ router.get('/', (req, res) => {
 });
 
 export default (logger: Logger) => {
-    const files = fs.readdirSync(__dirname).filter(file => file !== path.basename(__filename));
+    const files = fs.readdirSync(__dirname).filter(file => file !== path.basename(path.basename(__filename)));
     for (const file of files) {
         const route = require('./' + file).default;
-        const fileName = file.replace('.ts', '');
-        router.use(`/${fileName}`, route);
-        logger.info(`Loaded route /api/v1/${fileName}`, "API");
+        const infos = require('./' + file).infos;
+        router.use(`/${infos.name}`, route);
+        logger.info(`Loaded route /api/v1/${infos.name}`, "API");
     }
 
     return router;
