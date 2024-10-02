@@ -1,4 +1,4 @@
-import {Router, Request, Response, NextFunction} from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 const router = Router();
 import { APIRouteInfos, eightballValidator } from "../../utils";
 import { matchedData, validationResult } from "express-validator";
