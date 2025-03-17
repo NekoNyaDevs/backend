@@ -4,7 +4,7 @@ import * as config from '../config';
 import * as utils from '../utils';
 import Api from '../api/index';
 import cors from 'cors';
-import { APIError, NotFoundError } from "./errors";
+import { APIError, NotFoundError, ValidationError } from "./errors";
 import 'express-async-errors';
 import onFinished from 'on-finished';
 import onHeaders from 'on-headers';
@@ -85,7 +85,7 @@ export default class App {
                     code: (error as APIError).code,
                     type: (error as APIError).type
                 },
-                errors: (error as APIError).isValidationError() ? (error as APIError).errors : undefined
+                errors: (error as APIError).isValidationError() ? (error as ValidationError).errors : undefined
             });
             if ((error as APIError).code >= 500) this.logger.error((error as APIError).stack as string, "App");
         });
