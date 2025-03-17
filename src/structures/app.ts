@@ -72,22 +72,22 @@ export default class App {
             next(new NotFoundError("Route not found"));
         });
 
-        this.app.use((error: APIError, req: express.Request, res: express.Response, next: NextFunction) => {
+        this.app.use((error: Error | APIError, req: express.Request, res: express.Response, next: NextFunction) => {
             if (res.headersSent) {
                 return next(error);
             }
-            // If there isn't the type property, it is a fallback error
-            if (!error.type) error = APIError.fromError(error);
-            res.status(error.code || 500);
+            // If it's not an APIError, we convert it to an APIError
+            if (!(error instanceof APIError)) error = APIError.fromError(error);
+            res.status((error as APIError).code || 500);
             res.json({
                 error: {
-                    message: error.message,
-                    code: error.code,
-                    type: error.type
+                    message: (error as APIError).message,
+                    code: (error as APIError).code,
+                    type: (error as APIError).type
                 },
-                errors: error.isValidationError() ? error.errors : undefined
+                errors: (error as APIError).isValidationError() ? (error as APIError).errors : undefined
             });
-            if (error.code >= 500) this.logger.error(error.stack as string, "App");
+            if ((error as APIError).code >= 500) this.logger.error((error as APIError).stack as string, "App");
         });
     }
 }

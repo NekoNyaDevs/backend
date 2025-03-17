@@ -13,7 +13,9 @@ export class APIError extends Error {
     }
 
     static fromError(error: Error): APIError {
-        return new APIError(error.message, 500, "APIError");
+        const newError = new APIError(error.message, 500, "APIError");
+        newError.stack = error.stack;
+        return newError;
     }
 
     isValidationError(): this is ValidationError {
