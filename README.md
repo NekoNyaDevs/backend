@@ -11,8 +11,8 @@ If you wish to deploy your own instance of NekoNya-Backend for any reasons, you 
 ### 📦・Install
 
 ```bash
-$ git clone https://github.com/NekoNyaDevs/nekonya-storage.git
-$ cd nekonya-storage
+$ git clone https://github.com/NekoNyaDevs/backend.git
+$ cd backend
 $ npm install
 ```
 
